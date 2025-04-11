@@ -1,0 +1,31 @@
+/* Record box container */
+.record-box {
+  background-color: white;
+  border: 2px solid black;
+  width: 100%;
+  height: 275px;
+  margin: 20px 0;
+  overflow-y: auto;
+  padding: 10px;
+  font-size: 1.2em;
+  color: #333;
+}
+
+/* Individual record entries */
+.record-entry {
+  display: flex;
+  justify-content: space-between; /* The text on the left, 'X' on the right */
+  align-items: center;
+  margin-bottom: 5px;
+  padding: 2px 5px;
+  border-bottom: 1px solid #eee;
+}
+
+/* Delete button styling */
+.delete-btn {
+  background-color: transparent;
+  border: none;
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
+}
