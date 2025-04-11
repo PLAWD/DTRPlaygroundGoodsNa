@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DTR Playground</title>
+  <!-- Include Flatpickr CSS from CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+  <!-- Link to your custom CSS files -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/reset.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/record.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/schedule.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/logic.css') }}">
+
+  <style>
+    /* Example inline CSS just for demonstration; ideally put this in schedule.css or layout.css */
+    .schedule-form {
+      margin-bottom: 15px; /* Add space below the schedule module */
+    }
+  </style>
+</head>
+<body>
+  <!-- Left Panel -->
+  <div class="left-panel">
+
+    <!-- Schedule Form Section -->
+    <div class="schedule-form">
+      <h2>Set Schedule</h2>
+      <br>
+      <form id="schedule-form">
+        <div class="panels-container">
+          <!-- Start Time + Day -->
+          <div class="panel">
+            <div class="panel-label">Start</div>
+            <label for="start-time">Time:</label>
+            <input type="text" id="start-time" name="start_time" required>
+
+            <label for="start-day">Day:</label>
+            <select id="start-day" name="start_day" required>
+              <option value="">--Select Day--</option>
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
+              <option value="Saturday">Saturday</option>
+              <option value="Sunday">Sunday</option>
+            </select>
+          </div>
+
+          <div class="panel">
+            <div class="panel-label">End</div>
+            <!-- End Time + Day -->
+            <label for="end-time">Time:</label>
+            <input type="text" id="end-time" name="end_time" required>
+
+            <label for="end-day">Day:</label>
+            <select id="end-day" name="end_day" required>
+              <option value="">--Select Day--</option>
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
+              <option value="Saturday">Saturday</option>
+              <option value="Sunday">Sunday</option>
+            </select>
+          </div>
+          <button type="submit" id="add-schedule-btn">Add Schedule</button>
+        </div>
+      </form>
+
+      <div id="schedule-message" style="margin-top:10px; font-weight:bold;"></div>
+      <div id="schedule-list">
+        <table class="schedule-table">
+          <thead>
+            <tr>
+              <th>Start Day</th>
+              <th>Start Time</th>
+              <th>End Day</th>
+              <th>End Time</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Schedule entries will be dynamically inserted here -->
+          </tbody>
+        </table>
+      </div>
+      <div class="schedule-actions">
+        <button type="button" id="save-schedule">Save Schedule</button>
+        <button type="button" id="load-schedule">Load Schedule</button>
+        <button type="button" id="clear-schedule">Clear Schedule</button>
+      </div>
+      <!-- Hidden file input for schedule upload -->
+      <input type="file" id="upload-schedule-file" style="display:none;" accept=".json">
+    </div>
+
+    <!-- Recording Time Section -->
+    <div class="time-row">
+      <label for="schedule_datetime">Select Date & Time:</label>
+      <input type="text" id="schedule_datetime" name="schedule_datetime" required>
+      <button type="button" id="record-time">Record Time</button>
+    </div>
+
+    <!-- Record Box -->
+    <div class="record-box" id="record-box">
+      No time recorded
+    </div>
+
+    <!-- Record Info Action Buttons -->
+    <div class="button-group">
+      <button type="button" id="save-info">Save Records</button>
+      <button type="button" id="upload-info">Upload Records</button>
+      <button type="button" id="clear-info">Clear Records</button>
+    </div>
+    <!-- Hidden file input for record box upload -->
+    <input type="file" id="upload-file" style="display:none;" accept=".json,.txt">
+  </div>
+
+  <!-- Right Panel -->
+  <div class="right-panel">
+    <h3>Logic List</h3>
+    <ul id="logic-list">
+      <li class="logic-item">
+        <input type="checkbox" id="logic3" name="logic3">
+        <label for="logic3">Review Records</label>
+      </li>
+      <li class="logic-item">
+        <input type="checkbox" id="logic1" name="logic1">
+        <label for="logic1">Logic 1</label>
+      </li>
+      <li class="logic-item">
+        <input type="checkbox" id="logic2" name="logic2">
+        <label for="logic2">Logic 2</label>
+      </li>
+      <li class="logic-item">
+        <input type="checkbox" id="logic4" name="logic4">
+        <label for="logic4">Logic 4</label>
+      </li>
+    </ul>
+
+    <!-- Logic Results Container -->
+    <div id="logic-results">
+      <div id="logic3-result" class="logic-result"></div>
+      <div id="logic1-result" class="logic-result"></div>
+      <div id="logic2-result" class="logic-result"></div>
+      <div id="logic4-result" class="logic-result"></div>
+    </div>
+  </div>
+
+  <!-- Include external libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+
+  <!-- Link to your JS files -->
+  <script src="{{ url_for('static', filename='js/record.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/schedule.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/logic1.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/logic2.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/logic3.js') }}"></script>
+  <script>
+    Sortable.create(document.getElementById('logic-list'), { animation:150 });
+  </script>
+</body>
+</html>
